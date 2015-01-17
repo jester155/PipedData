@@ -3,6 +3,7 @@
 namespace Pipe.Shell {
 	class Menu {
 		bool IsNewSession = true;
+		private string[] MenuPrint = { "Menu", "Start", "FileConverter", "Help", "Exit" };
 
 		public void PresentInitialMenu() {
 			if (IsNewSession) {
@@ -12,7 +13,7 @@ namespace Pipe.Shell {
 			Console.WriteLine("{1}\n{2}\n{3}\n{4}\n{5}\n",
 				"1 : Menu",
 				"2 : Start",
-				"3 : FileConverter",
+				"3 : File Converter",
 				"4 : Help",
 				"5 : Exit"
 				);
@@ -20,22 +21,19 @@ namespace Pipe.Shell {
 		}
 
 		public void MenuInteraction(MenuOptions option) {
-			int userSelection = Console.Read();
-			switch (userSelection) {
-				case 1:
-					break;
-				case 2:
-					break;
-				case 3:
-					break;
-				case 4:
-					break;
-				case 5:
-					break;
-				default:
-					Console.WriteLine("Invalid Input. Try Again.");
-					break;
-			}
+			string userSelection = Console.ReadLine();
+		}
+
+		private MenuOptions GetMenuOption(string option) {
+
+			int selection = -1;
+
+			if (!int.TryParse(option, out selection))
+				selection = Array.FindIndex(MenuPrint, o => o == option.Replace(" ", string.Empty));
+			else selection -= 1;
+
+
+			return (MenuOptions)selection;
 		}
 	}
 }
