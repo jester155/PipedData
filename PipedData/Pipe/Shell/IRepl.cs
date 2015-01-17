@@ -5,6 +5,6 @@ namespace Pipe.Shell {
 
 		bool Evaluate(string command);
 		void Print(string[] args);
-        void Loop();
+		void Loop();
 	}
 }
