@@ -2,6 +2,7 @@
 
 namespace Pipe.Shell {
 	class MenuRepl : IRepl {
+
 		public void Read(string command) {
 			throw new NotImplementedException();
 		}
@@ -10,11 +11,11 @@ namespace Pipe.Shell {
 			throw new NotImplementedException();
 		}
 
-        public void Print(string[] args) {
+		public void Print(string[] args) {
 			throw new NotImplementedException();
 		}
-        public void Loop() {
-            throw new NotImplementedException();
-        }
+		public void Loop() {
+			throw new NotImplementedException();
+		}
 	}
 }
