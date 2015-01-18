@@ -59,6 +59,7 @@
     <Compile Include="Shell\CommandEvalActionHandler.cs" />
     <Compile Include="Shell\CommandRepl.cs" />
     <Compile Include="Shell\IRepl.cs" />
+    <Compile Include="Shell\Menu.cs" />
     <Compile Include="Shell\MenuEvalActionHandler.cs" />
     <Compile Include="Shell\MenuOptions.cs" />
     <Compile Include="Shell\MenuRepl.cs" />

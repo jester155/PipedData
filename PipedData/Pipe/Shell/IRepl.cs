@@ -4,7 +4,7 @@ namespace Pipe.Shell {
 		void Read(string command);
 
 		bool Evaluate(string command);
-		void Print(string[] args);
+		void Print(string[] args = null);
 		void Loop();
 	}
 }

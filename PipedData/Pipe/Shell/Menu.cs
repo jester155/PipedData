@@ -5,7 +5,7 @@ namespace Pipe.Shell {
 		bool IsNewSession = true;
 		private string[] MenuPrint = { "Menu", "Start", "FileConverter", "Help", "Exit" };
 
-		public void PresentInitialMenu() {
+		public void PresentMenu() {
 			if (IsNewSession) {
 				Console.WriteLine("{0}", "Author: We Know Work\tDate: 01.16.2015\nDescription: Basic CRUD database manipulator \n");
 			}
@@ -20,8 +20,8 @@ namespace Pipe.Shell {
 			IsNewSession = false;
 		}
 
-		public void MenuInteraction(MenuOptions option) {
-			string userSelection = Console.ReadLine();
+		public MenuOptions MenuInteraction(string option) {
+			return GetMenuOption(option);
 		}
 
 		private MenuOptions GetMenuOption(string option) {
