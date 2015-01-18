@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PipeQuery {
-	class Query {
+namespace Pipe.Shell {
+	class MenuEvalActionHandler {
 	}
 }

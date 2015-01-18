@@ -48,11 +48,20 @@
     <Compile Include="Help\Help.cs" />
     <Compile Include="Help\IHelp.cs" />
     <Compile Include="Help\MenuHelp.cs" />
+    <Compile Include="Help\ReplCommandHelp.cs" />
     <Compile Include="ICrud.cs" />
     <Compile Include="PipeEditor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReplCommandHelp.cs" />
+    <Compile Include="Query\Query.cs" />
+    <Compile Include="Query\QueryInterpreter.cs" />
+    <Compile Include="Query\QueryOptions.cs" />
+    <Compile Include="Shell\CommandEvalActionHandler.cs" />
+    <Compile Include="Shell\CommandRepl.cs" />
+    <Compile Include="Shell\IRepl.cs" />
+    <Compile Include="Shell\MenuEvalActionHandler.cs" />
+    <Compile Include="Shell\MenuOptions.cs" />
+    <Compile Include="Shell\MenuRepl.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

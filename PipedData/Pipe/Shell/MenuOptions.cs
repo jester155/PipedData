@@ -1,9 +1,10 @@
 ﻿
-namespace PipeShell {
+namespace Pipe.Shell {
 	public enum MenuOptions {
 		Start ,
 		Menu ,
-		ConvertCsv ,
+		FileConverter ,
+        Help ,
 		Exit
 	}
 }

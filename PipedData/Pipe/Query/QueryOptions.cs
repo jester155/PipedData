@@ -1,5 +1,5 @@
 ﻿
-namespace PipeQuery {
+namespace Pipe.Query {
 	public enum QueryOptions {
 		Create ,
 		Read ,

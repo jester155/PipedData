@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PipeShell {
-	class MenuEvalActionHandler {
+namespace Pipe.Shell {
+	class CommandEvalActionHandler {
 	}
 }

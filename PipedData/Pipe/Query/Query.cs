@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PipeShell {
-	class CommandEvalActionHandler {
+namespace Pipe.Query {
+	class Query {
 	}
 }

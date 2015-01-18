@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PipeShell {
+namespace Pipe.Shell {
 	class CommandRepl : IRepl {
 		public void Read(string command) {
 			throw new NotImplementedException();
@@ -10,8 +10,11 @@ namespace PipeShell {
 			throw new NotImplementedException();
 		}
 
-		public void Print() {
+        public void Print(string[] args) {
 			throw new NotImplementedException();
 		}
+        public void Loop() {
+            throw new NotImplementedException();
+        }
 	}
 }
