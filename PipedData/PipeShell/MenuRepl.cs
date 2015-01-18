@@ -1,10 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PipeShell {
-	class MenuRepl {
+	class MenuRepl : IRepl {
+		public void Read(string command) {
+			throw new NotImplementedException();
+		}
+
+		public bool Evaluate(string command) {
+			throw new NotImplementedException();
+		}
+
+		public void Print() {
+			throw new NotImplementedException();
+		}
 	}
 }

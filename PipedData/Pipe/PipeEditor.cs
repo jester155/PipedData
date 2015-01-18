@@ -1,0 +1,5 @@
+﻿
+namespace Pipe {
+	class PipeEditor {
+	}
+}

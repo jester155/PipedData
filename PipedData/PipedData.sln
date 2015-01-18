@@ -3,7 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pipe", "Pipe\Pipe.csproj", "{1511477A-71A2-4D24-B260-E8E5B948C959}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PipeShell", "PipeShell\PipeShell.csproj", "{B4F59BA9-723A-4A66-8D0A-E959F9814F40}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PipeQuery", "PipeQuery\PipeQuery.csproj", "{23EE6627-A32F-46D7-A211-ED32379E76A5}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1511477A-71A2-4D24-B260-E8E5B948C959}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1511477A-71A2-4D24-B260-E8E5B948C959}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1511477A-71A2-4D24-B260-E8E5B948C959}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1511477A-71A2-4D24-B260-E8E5B948C959}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4F59BA9-723A-4A66-8D0A-E959F9814F40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4F59BA9-723A-4A66-8D0A-E959F9814F40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4F59BA9-723A-4A66-8D0A-E959F9814F40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4F59BA9-723A-4A66-8D0A-E959F9814F40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23EE6627-A32F-46D7-A211-ED32379E76A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23EE6627-A32F-46D7-A211-ED32379E76A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23EE6627-A32F-46D7-A211-ED32379E76A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23EE6627-A32F-46D7-A211-ED32379E76A5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection

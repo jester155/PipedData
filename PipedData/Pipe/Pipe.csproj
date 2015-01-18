@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>84a0638f-60dc-4244-9a4e-0eeae5fdddff</ProjectGuid>
+    <ProjectGuid>{1511477A-71A2-4D24-B260-E8E5B948C959}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Pipe</RootNamespace>
@@ -41,8 +41,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArgumentsHandler.cs" />
+    <Compile Include="Database.cs" />
+    <Compile Include="FileConverter.cs" />
+    <Compile Include="Help\ArgumentsHelp.cs" />
+    <Compile Include="Help\Help.cs" />
+    <Compile Include="Help\IHelp.cs" />
+    <Compile Include="Help\MenuHelp.cs" />
+    <Compile Include="ICrud.cs" />
+    <Compile Include="PipeEditor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReplCommandHelp.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
