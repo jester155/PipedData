@@ -18,11 +18,16 @@ namespace Pipe.Query {
 		}
 
 		public Query MakeQuery() {
-			return new Query(CreateFilter()) {
+			var query = new Query(CreateFilter()) {
 				QueryOption = GetQueryOption() ,
 				HasFilter = HasFilter() ,
-				QueryParameters = GetQueryParams()
+				QueryParameters = GetQueryParams() ,
+				IsUpdateQuery = GetIsUpdateQuery()
 			};
+
+
+
+			return query;
 		}
 
 		private QueryOptions GetQueryOption() {
@@ -78,7 +83,8 @@ namespace Pipe.Query {
 			var filterData = new List<string>();
 
 			var index = Array.FindIndex(this.QueryArray , idx => idx == "where");
-			var length = this.QueryArray.Length - index;
+			var length = GetIsUpdateQuery() ?
+				Array.FindIndex(this.QueryArray , q => q == "to") - index : this.QueryArray.Length - index;
 
 			for(int i = index ; i < length ; i++) filterData.Add(this.QueryArray[i]);
 
@@ -91,6 +97,13 @@ namespace Pipe.Query {
 
 		private string[] GetQueryParams() {
 			return this.QueryArray[1].Split(',');
+		}
+
+		private bool GetIsUpdateQuery() {
+			return this.QueryArray.Any(q => q == "to");
+		}
+		private string[] GetUpdateParams() {
+			return GetIsUpdateQuery() ? this.QueryArray[this.QueryArray.Length - 1].Split(',') : null;
 		}
 	}
 }
