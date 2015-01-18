@@ -14,10 +14,11 @@ namespace Pipe.Query {
 			this.Filter = filter;
 		}
 
-
+		public string[] UpdateParameters { get; set; }
 		public QueryOptions QueryOption { get; set; }
 		public Filter Filter { get; set; }
 		public string[] QueryParameters { get; set; }
 		public bool HasFilter { get; set; }
+		public bool IsUpdateQuery { get; set; }
 	}
 }
