@@ -12,8 +12,8 @@ namespace Pipe.Query {
 		public string RawQuery { get; set; }
 		public string[] QueryArray { get; set; }
 
-		public QueryFactory(string fullQuery) {
-			this.RawQuery = fullQuery.ToLower();
+		public QueryFactory(string fullQueryString) {
+			this.RawQuery = fullQueryString.ToLower();
 			this.QueryArray = GetQueryArray();
 		}
 
