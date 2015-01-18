@@ -1,8 +1,8 @@
 ﻿
 namespace Pipe.Shell {
 	public interface IRepl {
-		void Read(string command);
 
+		void Read();
 		bool Evaluate(string command);
 		void Print(string[] args = null);
 		void Loop();
