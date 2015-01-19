@@ -106,6 +106,7 @@ namespace Pipe.Query {
 		private bool GetIsUpdateQuery() {
 			return this.QueryArray.Any(q => q == "to");
 		}
+
 		private string[] GetUpdateParams() {
 			return GetIsUpdateQuery() ?
 				this.QueryArray[this.QueryArray.Length - 1].Split(',') : null;

@@ -92,6 +92,11 @@ namespace Pipe.Query {
 				}
 			}
 
+			if(this.Query.QueryParameters.Length > 0 &&
+				this.Query.QueryParameters[0] != "*") {
+				filtered = FilterColumns(filtered);
+			}
+
 			return filtered;
 		}
 
@@ -106,12 +111,36 @@ namespace Pipe.Query {
 			var filtered = new List<List<string>>();
 
 			foreach(var line in lines) {
-				if(line[col].Contains(this.Query.Filter.FilterValue)) {
+				if(line.Count > 1 && line[col].Contains(this.Query.Filter.FilterValue)) {
 					filtered.Add(line);
 				}
 			}
 
+			if(this.Query.QueryParameters.Length > 0 &&
+				this.Query.QueryParameters[0] != "*") {
+				filtered = FilterColumns(filtered);
+			}
+
 			return filtered;
+		}
+
+		private List<List<string>> FilterColumns(List<List<string>> filter) {
+			var temp = new List<List<string>>();
+			var filterCols = this.Database.Headers.Where(h =>
+				this.Query.QueryParameters
+				.Any(a => a == h))
+				.ToList();
+
+			foreach(var line in filter) {
+				var tempLine = new List<string>();
+				foreach(var col in filterCols) {
+					tempLine.Add(line[Array.FindIndex(this.Database.Headers , r => r == col)]);
+				}
+				temp.Add(tempLine);
+
+			}
+
+			return temp;
 		}
 
 		private string PerformInsert() {
@@ -154,7 +183,17 @@ namespace Pipe.Query {
 					break;
 			}
 
-			var i = 0;
+			var tableHeader = FetchHeader();
+
+			foreach(var header in tableHeader) {
+				if(tableHeader.IndexOf(header) != tableHeader.Count - 1) {
+					MessageBuilder.Append(header + " | ");
+				}
+				else MessageBuilder.Append(header);
+			}
+
+			MessageBuilder.AppendLine();
+
 			foreach(var line in filteredEntries) {
 				foreach(var entry in line) {
 					if(line.IndexOf(entry) != line.Count - 1) {
@@ -165,6 +204,14 @@ namespace Pipe.Query {
 
 				MessageBuilder.AppendLine();
 			}
+		}
+
+		private List<string> FetchHeader() {
+
+			return this.Query.QueryParameters.Contains(WILD_CARD) ?
+				this.Database.Headers.ToList() :
+				this.Database.Headers.Where(h => this.Query.QueryParameters.Any(p => p == h)).ToList();
+				
 		}
 	}
 }
