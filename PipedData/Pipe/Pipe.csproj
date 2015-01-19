@@ -51,7 +51,6 @@
     <Compile Include="Help\IHelp.cs" />
     <Compile Include="Help\MenuHelp.cs" />
     <Compile Include="Help\ReplCommandHelp.cs" />
-    <Compile Include="ICrud.cs" />
     <Compile Include="PipeEditor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

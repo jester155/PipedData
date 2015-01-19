@@ -39,8 +39,9 @@ namespace Pipe {
 			int headerIndex , string newValue ,
 			List<List<string>> entries ,
 			out List<List<string>> modifiedEntries) {
+
 			modifiedEntries = entries;
-			modifiedEntries[lineIndex].Select(l => l).ToList()[headerIndex] = newValue;
+			modifiedEntries[lineIndex - 1].Select(l => l).ToList()[headerIndex] = newValue;
 
 			using(var sw = new StreamWriter(file , false)) {
 				modifiedEntries.ForEach(line => {
