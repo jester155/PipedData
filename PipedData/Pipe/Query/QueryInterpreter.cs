@@ -25,6 +25,8 @@ namespace Pipe.Query {
 
 			switch(this.Query.QueryOption) {
 				case QueryOptions.Create:
+					message =
+						PipeEditor.CreateDataFile(this.Database.DataFile , this.Database.Headers);
 					return true;
 				case QueryOptions.Select:
 					message = PerformSelect();
@@ -33,9 +35,10 @@ namespace Pipe.Query {
 					message = PerformInsert();
 					return true;
 				case QueryOptions.Update:
+					message = PerformUpdate();
 					return true;
 				case QueryOptions.Delete:
-					var row = GetRowToRemove();
+					var row = GetRow();
 					message = PipeEditor.DeleteEntry(this.Database.DataFile , row + 1);
 					return true;
 				case QueryOptions.Use:
@@ -45,14 +48,27 @@ namespace Pipe.Query {
 				case QueryOptions.Import:
 					return true;
 				case QueryOptions.Invalid:
-					return true;
 				default:
 					message = "No action was performed.";
 					return false;
 			}
 		}
 
-		private int GetRowToRemove() {
+		private string PerformUpdate() {
+			var tempList = new List<List<string>>();
+
+
+			this.Query.UpdateParameters.ToList()
+				.ForEach(p => {
+					PipeEditor.UpdateEntry(
+					this.Database.DataFile , GetRow() , GetCol() , p ,
+					this.Database.Entries , out tempList);
+				});
+
+			return "Updates were successful.";
+		}
+
+		private int GetRow() {
 			var line = new List<string>();
 			switch(this.Query.Filter.FilterOption) {
 				case FileterOptions.Is:

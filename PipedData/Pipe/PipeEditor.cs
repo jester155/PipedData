@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -9,7 +10,6 @@ namespace Pipe {
 
 		public string CreateDataFile(string file , string[] header) {
 			using(var sw = new StreamWriter(file)) {
-
 				sw.Write(header.Aggregate(PipeFormat));
 			}
 
@@ -32,6 +32,23 @@ namespace Pipe {
 			}
 
 			return removedEntry;
+		}
+
+		public string UpdateEntry(
+			string file , int lineIndex ,
+			int headerIndex , string newValue ,
+			List<List<string>> entries ,
+			out List<List<string>> modifiedEntries) {
+			modifiedEntries = entries;
+			modifiedEntries[lineIndex].Select(l => l).ToList()[headerIndex] = newValue;
+
+			using(var sw = new StreamWriter(file , false)) {
+				modifiedEntries.ForEach(line => {
+					sw.WriteLine(line.Aggregate(PipeFormat));
+				});
+			}
+
+			return "The entry has been modified!";
 		}
 	}
 }
