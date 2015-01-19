@@ -93,7 +93,7 @@ namespace Pipe.Query {
 			}
 
 			if(this.Query.QueryParameters.Length > 0 &&
-				this.Query.QueryParameters[0] != "*") {
+				this.Query.QueryParameters[0] != WILD_CARD) {
 				filtered = FilterColumns(filtered);
 			}
 
@@ -117,7 +117,7 @@ namespace Pipe.Query {
 			}
 
 			if(this.Query.QueryParameters.Length > 0 &&
-				this.Query.QueryParameters[0] != "*") {
+				this.Query.QueryParameters[0] != WILD_CARD) {
 				filtered = FilterColumns(filtered);
 			}
 
@@ -137,7 +137,6 @@ namespace Pipe.Query {
 					tempLine.Add(line[Array.FindIndex(this.Database.Headers , r => r == col)]);
 				}
 				temp.Add(tempLine);
-
 			}
 
 			return temp;
@@ -148,9 +147,7 @@ namespace Pipe.Query {
 			this.Database.Entries.Add(newEntries);
 			var lineEntry = string.Empty;
 
-			foreach(var entry in newEntries) {
-				lineEntry += (newEntries.IndexOf(entry) != newEntries.Count - 1) ? entry + "|" : entry;
-			}
+			lineEntry += newEntries.Aggregate(PipeEditor.PipeFormat);
 
 			this.PipeEditor.AppendEntry(this.Database.DataFile , lineEntry);
 
@@ -185,25 +182,13 @@ namespace Pipe.Query {
 
 			var tableHeader = FetchHeader();
 
-			foreach(var header in tableHeader) {
-				if(tableHeader.IndexOf(header) != tableHeader.Count - 1) {
-					MessageBuilder.Append(header + " | ");
-				}
-				else MessageBuilder.Append(header);
-			}
-
+			MessageBuilder.Append(tableHeader.Aggregate(PipeEditor.PipeFormat));
 			MessageBuilder.AppendLine();
 
-			foreach(var line in filteredEntries) {
-				foreach(var entry in line) {
-					if(line.IndexOf(entry) != line.Count - 1) {
-						MessageBuilder.Append(entry + " | ");
-					}
-					else MessageBuilder.Append(entry);
-				}
-
+			filteredEntries.ForEach(line => {
+				MessageBuilder.Append(line.Aggregate(PipeEditor.PipeFormat));
 				MessageBuilder.AppendLine();
-			}
+			});
 		}
 
 		private List<string> FetchHeader() {
