@@ -122,10 +122,10 @@ namespace Pipe.Query {
 		private string PerformInsert() {
 			var newEntries = this.Query.QueryParameters.ToList();
 			this.Database.Entries.Add(newEntries);
-			var lineEntry = Environment.NewLine;
+			var lineEntry = "\n";
 
 			foreach(var entry in newEntries) {
-				lineEntry += (entry.IndexOf(entry) != newEntries.Count - 1) ? entry + "|" : entry;
+				lineEntry += (newEntries.IndexOf(entry) != newEntries.Count - 1) ? entry + "|" : entry;
 			}
 
 			this.PipeEditor.AppendEntry(this.Database.DataFile , lineEntry);
