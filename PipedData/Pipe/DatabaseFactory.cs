@@ -34,12 +34,14 @@ namespace Pipe {
 		public List<List<string>> GetDatbaseEntries() {
 			return this.DatabaseReader.ReadToEnd()
 				.Split(new string[] { Environment.NewLine } , StringSplitOptions.None)
-				.Select(line => SplitOnPipe(line).ToList())
+				.Select(line => SplitOnPipe(line.ToLower()).ToList())
 				.ToList();
 		}
 
 		private string[] SplitOnPipe(string line) {
-			return line.Split(DELIN);
+			return line.Split(DELIN)
+				.Select(l => l.ToLower())
+				.ToArray();
 		}
 	}
 }

@@ -24,7 +24,7 @@ namespace Pipe.Query {
 			return null;
 		}
 
-		private bool PerformQueryAction(out string message) {
+		public bool PerformQueryAction(out string message) {
 			this.MessageBuilder = new StringBuilder();
 			message = string.Empty;
 
@@ -56,46 +56,49 @@ namespace Pipe.Query {
 			}
 		}
 
-		private List<List<string>> FilterIs() {
-			var entries = this.Database.Entries;
-			var results = new List<List<string>>();
+		private int GetCol() {
+			var header = this.Database.Headers
+				.Where(h => h == this.Query.Filter.FilterColumn)
+				.Single();
 
-			foreach(var i in GetIndexesToWorkOn()) {
-				foreach(var line in entries) {
-					var temp = new List<string>();
-					foreach(var entry in line) {
-						if(entry.IndexOf(entry) == i && entry == this.Query.Filter.FilterValue) {
-							temp.Add(entry);
-						}
-					}
-					results.Add(temp);
+			return Array.IndexOf(this.Database.Headers , header);
+		}
+
+		private List<List<string>> FilterIs() {
+			var filtered = new List<List<string>>();
+
+			int col = GetCol();
+
+			var lines = this.Database.Entries
+				.Select(line => line)
+				.ToList();
+
+			foreach(var line in lines) {
+				if(this.Query.Filter.FilterValue == line[col]) {
+					filtered.Add(line);
 				}
 			}
 
-			return results;
+			return filtered;
 		}
 
 		private List<List<string>> FilterPartof() {
-			var entries = this.Database.Entries;
-			var results = new List<List<string>>();
 
-			foreach(var i in GetIndexesToWorkOn()) {
-				foreach(var line in entries) {
-					var temp = new List<string>();
-					foreach(var entry in line) {
-						if(entry.IndexOf(entry) == i && entry.Contains(this.Query.Filter.FilterValue)) {
-							temp.Add(entry);
-						}
-					}
-					results.Add(temp);
+			int col = GetCol();
+
+			var lines = this.Database.Entries
+				.Select(line => line)
+				.ToList();
+
+			var filtered = new List<List<string>>();
+
+			foreach(var line in lines) {
+				if(line[col].Contains(this.Query.Filter.FilterValue)) {
+					filtered.Add(line);
 				}
 			}
 
-			return results;
-		}
-
-		private int IndexToRemove() {
-			return GetIndexesToWorkOn(this.Query.Filter.FilterColumn);
+			return filtered;
 		}
 
 		private string PerformInsert() {
@@ -117,12 +120,14 @@ namespace Pipe.Query {
 			if(this.Query.QueryParameters.Contains(WILD_CARD)) {
 				var i = 0;
 				foreach(var line in this.Database.Entries) {
+					this.MessageBuilder.Append(i++ + ": ");
 					foreach(var entry in line) {
 						if(line.Count - 1 != line.IndexOf(entry)) {
-							this.MessageBuilder.AppendLine(i++ + ": " + entry + "|");
+							this.MessageBuilder.Append(entry + "|");
 						}
-						else this.MessageBuilder.AppendLine(i++ + ": " + entry);
+						else this.MessageBuilder.Append(entry);
 					}
+					this.MessageBuilder.AppendLine();
 				}
 			}
 			else if(this.Query.HasFilter) {
@@ -142,37 +147,24 @@ namespace Pipe.Query {
 					filteredEntries = FilterPartof();
 					break;
 				case FileterOptions.None:
-					filteredEntries = null;
+					filteredEntries = this.Database.Entries;
 					break;
 				default:
 					break;
 			}
 
-			if(filteredEntries != null) {
-				var i = 0;
-				foreach(var line in filteredEntries) {
-					foreach(var entry in line) {
-						if(FilterIs().IndexOf(line) != FilterIs().Count - 1) {
-							MessageBuilder.AppendLine(i++ + ": " + entry + "|");
-						}
-						else MessageBuilder.AppendLine(i++ + ": " + entry);
+			var i = 0;
+			foreach(var line in filteredEntries) {
+				MessageBuilder.Append(i++ + ": ");
+				foreach(var entry in line) {
+					if(line.IndexOf(entry) != line.Count - 1) {
+						MessageBuilder.Append(entry + ": ");
 					}
+					else MessageBuilder.Append(entry);
 				}
+
+				MessageBuilder.AppendLine();
 			}
-		}
-
-		private int[] GetIndexesToWorkOn() {
-			return this.Database.Headers
-					.Where(entry => this.Query.QueryParameters.Any(a => a == entry))
-					.Select(r => Array.IndexOf(this.Database.Headers , r))
-					.ToArray();
-		}
-
-		private int GetIndexesToWorkOn(string fileter) {
-			return this.Database.Headers
-					.Where(entry => entry == fileter)
-					.Select(r => Array.IndexOf(this.Database.Headers , r))
-					.Single();
 		}
 	}
 }

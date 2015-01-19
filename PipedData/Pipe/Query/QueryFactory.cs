@@ -18,13 +18,18 @@ namespace Pipe.Query {
 		}
 
 		public Query MakeQuery() {
-			var query = new Query(CreateFilter()) {
+			var query = new Query() {
 				QueryOption = GetQueryOption() ,
 				HasFilter = HasFilter() ,
 				QueryParameters = GetQueryParams() ,
 				IsUpdateQuery = GetIsUpdateQuery() ,
 				UpdateParameters = GetUpdateParams()
 			};
+
+			if(query.HasFilter) {
+				query.Filter = CreateFilter();
+			}
+			else query.Filter = new Filter() { FilterColumn = null , FilterValue = null , FilterOption = FileterOptions.None };
 
 			return query;
 		}
@@ -85,7 +90,7 @@ namespace Pipe.Query {
 			var length = GetIsUpdateQuery() ?
 				Array.FindIndex(this.QueryArray , q => q == "to") - index : this.QueryArray.Length - index;
 
-			for(int i = index ; i < length ; i++) filterData.Add(this.QueryArray[i]);
+			for(int i = index ; i < length + index ; i++) filterData.Add(this.QueryArray[i]);
 
 			filter.FilterColumn = filterData[1];
 			filter.FilterValue = filterData[3];
