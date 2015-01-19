@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -30,11 +31,11 @@ namespace Pipe {
 			return SplitOnPipe(this.DatabaseReader.ReadLine());
 		}
 
-		public string[][] GetDatbaseEntries() {
+		public List<List<string>> GetDatbaseEntries() {
 			return this.DatabaseReader.ReadToEnd()
 				.Split(new string[] { Environment.NewLine } , StringSplitOptions.None)
-				.Select(line => SplitOnPipe(line))
-				.ToArray();
+				.Select(line => SplitOnPipe(line).ToList())
+				.ToList();
 		}
 
 		private string[] SplitOnPipe(string line) {
