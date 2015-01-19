@@ -4,7 +4,7 @@ using System;
 namespace Pipe {
 	class Program {
 		static void Main(string[] args) {
-			var q = "select first where last partof pr";
+			var q = "delete where nums is 123";
 			var qf = new QueryFactory(q);
 			var df = new DatabaseFactory("Test.psv");
 			var d = df.MakeDatabase();

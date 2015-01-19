@@ -40,7 +40,8 @@ namespace Pipe.Query {
 				case QueryOptions.Update:
 					return true;
 				case QueryOptions.Delete:
-					message = PipeEditor.DeleteEntry(this.Database.DataFile , 0);
+					var row = GetRowToRemove();
+					message = PipeEditor.DeleteEntry(this.Database.DataFile , row + 1);
 					return true;
 				case QueryOptions.Use:
 					return true;
@@ -54,6 +55,23 @@ namespace Pipe.Query {
 					message = "No action was performed.";
 					return false;
 			}
+		}
+
+		private int GetRowToRemove() {
+			var line = new List<string>();
+			switch(this.Query.Filter.FilterOption) {
+				case FileterOptions.Is:
+					line = FilterIs().Select(l => l).Single();
+					break;
+				case FileterOptions.PartOf:
+					line = FilterPartof().Select(l => l).Single();
+					break;
+				case FileterOptions.None:
+				default:
+					return -1;
+			}
+
+			return this.Database.Entries.IndexOf(line);
 		}
 
 		private int GetCol() {
@@ -120,7 +138,6 @@ namespace Pipe.Query {
 			if(this.Query.QueryParameters.Contains(WILD_CARD)) {
 				var i = 0;
 				foreach(var line in this.Database.Entries) {
-					this.MessageBuilder.Append(i++ + ": ");
 					foreach(var entry in line) {
 						if(line.Count - 1 != line.IndexOf(entry)) {
 							this.MessageBuilder.Append(entry + "|");
@@ -155,7 +172,6 @@ namespace Pipe.Query {
 
 			var i = 0;
 			foreach(var line in filteredEntries) {
-				MessageBuilder.Append(i++ + ": ");
 				foreach(var entry in line) {
 					if(line.IndexOf(entry) != line.Count - 1) {
 						MessageBuilder.Append(entry + ": ");
