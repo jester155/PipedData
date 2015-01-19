@@ -19,11 +19,6 @@ namespace Pipe.Query {
 			this.PipeEditor = new PipeEditor();
 		}
 
-		//. TODO
-		public string[] InterpretQuery() {
-			return null;
-		}
-
 		public bool PerformQueryAction(out string message) {
 			this.MessageBuilder = new StringBuilder();
 			message = string.Empty;
@@ -122,7 +117,7 @@ namespace Pipe.Query {
 		private string PerformInsert() {
 			var newEntries = this.Query.QueryParameters.ToList();
 			this.Database.Entries.Add(newEntries);
-			var lineEntry = "\n";
+			var lineEntry = "\r\n";
 
 			foreach(var entry in newEntries) {
 				lineEntry += (newEntries.IndexOf(entry) != newEntries.Count - 1) ? entry + "|" : entry;
@@ -135,19 +130,8 @@ namespace Pipe.Query {
 
 		private string PerformSelect() {
 			var result = string.Empty;
-			if(this.Query.QueryParameters.Contains(WILD_CARD)) {
-				var i = 0;
-				foreach(var line in this.Database.Entries) {
-					foreach(var entry in line) {
-						if(line.Count - 1 != line.IndexOf(entry)) {
-							this.MessageBuilder.Append(entry + "|");
-						}
-						else this.MessageBuilder.Append(entry);
-					}
-					this.MessageBuilder.AppendLine();
-				}
-			}
-			else if(this.Query.HasFilter) {
+			if(this.Query.QueryParameters.Contains(WILD_CARD) ||
+				this.Query.HasFilter) {
 				BuildMessage(this.Query.Filter.FilterOption);
 			}
 
@@ -174,7 +158,7 @@ namespace Pipe.Query {
 			foreach(var line in filteredEntries) {
 				foreach(var entry in line) {
 					if(line.IndexOf(entry) != line.Count - 1) {
-						MessageBuilder.Append(entry + ": ");
+						MessageBuilder.Append(entry + " | ");
 					}
 					else MessageBuilder.Append(entry);
 				}

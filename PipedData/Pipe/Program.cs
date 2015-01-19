@@ -4,7 +4,7 @@ using System;
 namespace Pipe {
 	class Program {
 		static void Main(string[] args) {
-			var q = "insert 1,bob,dob,123";
+			var q = "select * where id is 5";
 			var qf = new QueryFactory(q);
 			var df = new DatabaseFactory("Test.psv");
 			var d = df.MakeDatabase();
