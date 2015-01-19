@@ -26,8 +26,6 @@ namespace Pipe.Query {
 				UpdateParameters = GetUpdateParams()
 			};
 
-
-
 			return query;
 		}
 

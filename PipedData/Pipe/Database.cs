@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Pipe {
 	class Database {
+		public string DataFile { get; set; }
+		public string[] Headers { get; set; }
+		public string[][] Entries { get; set; }
 	}
 }
