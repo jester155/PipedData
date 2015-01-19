@@ -22,7 +22,8 @@ namespace Pipe.Query {
 				QueryOption = GetQueryOption() ,
 				HasFilter = HasFilter() ,
 				QueryParameters = GetQueryParams() ,
-				IsUpdateQuery = GetIsUpdateQuery()
+				IsUpdateQuery = GetIsUpdateQuery() ,
+				UpdateParameters = GetUpdateParams()
 			};
 
 
@@ -103,7 +104,8 @@ namespace Pipe.Query {
 			return this.QueryArray.Any(q => q == "to");
 		}
 		private string[] GetUpdateParams() {
-			return GetIsUpdateQuery() ? this.QueryArray[this.QueryArray.Length - 1].Split(',') : null;
+			return GetIsUpdateQuery() ?
+				this.QueryArray[this.QueryArray.Length - 1].Split(',') : null;
 		}
 	}
 }
