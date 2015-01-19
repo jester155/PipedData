@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 
 namespace Pipe {
@@ -6,7 +7,7 @@ namespace Pipe {
 
 		public void AppendEntry(string file , string entry) {
 			using(var sw = new StreamWriter(file , true)) {
-				sw.WriteLine(entry);
+				sw.Write(Environment.NewLine + entry);
 			}
 		}
 		public string DeleteEntry(string file , int index) {

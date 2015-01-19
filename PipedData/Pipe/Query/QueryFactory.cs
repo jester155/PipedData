@@ -12,6 +12,10 @@ namespace Pipe.Query {
 		public string RawQuery { get; set; }
 		public string[] QueryArray { get; set; }
 
+		public QueryFactory() {
+			this.QueryArray = GetQueryArray();
+		}
+
 		public QueryFactory(string fullQueryString) {
 			this.RawQuery = fullQueryString.ToLower();
 			this.QueryArray = GetQueryArray();
@@ -32,6 +36,12 @@ namespace Pipe.Query {
 			else query.Filter = new Filter() { FilterColumn = null , FilterValue = null , FilterOption = FileterOptions.None };
 
 			return query;
+		}
+
+		public Query MakeQuery(string rawQueryString) {
+			this.RawQuery = rawQueryString;
+			this.QueryArray = GetQueryArray();
+			return MakeQuery();
 		}
 
 		private QueryOptions GetQueryOption() {
