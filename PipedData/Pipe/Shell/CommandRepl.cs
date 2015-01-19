@@ -2,7 +2,7 @@
 
 namespace Pipe.Shell {
 	class CommandRepl : IRepl {
-		public void Read() {
+		public void Read(string commmand) {
 			string userCommand = Console.ReadLine();
 			Evaluate(userCommand);
 		}

@@ -5,14 +5,17 @@ namespace Pipe.Shell {
 		Menu menu = new Menu();
 		string[] message = new string[1];
 
-		public void Read() {
-			string userInput = Console.ReadLine();
-			this.Evaluate(userInput);
+		public void Read(string command = "") {
+			if(string.IsNullOrEmpty(command)) {
+				string userInput = Console.ReadLine();
+				this.Evaluate(userInput);
+			}
+			else Evaluate(command);
 		}
 
 		public bool Evaluate(string command) {
 			MenuOptions selection = menu.MenuInteraction(command);
-			switch (selection) {
+			switch(selection) {
 				case MenuOptions.Menu:
 					menu.PresentMenu();
 					this.Loop();
@@ -37,12 +40,12 @@ namespace Pipe.Shell {
 					this.Loop();
 					break;
 				case MenuOptions.Exit:
-					message.SetValue("Quitting....", 1);
+					message.SetValue("Quitting...." , 1);
 					Print(message);
 					System.Environment.Exit(0);
 					break;
 				default:
-					message.SetValue("No Action Performed", 1);
+					message.SetValue("No Action Performed" , 1);
 					Print(message);
 					this.Loop();
 					break;
@@ -52,9 +55,9 @@ namespace Pipe.Shell {
 
 		public void Print(string[] args = null) {
 			int i = 0;
-			while (args.Length > 0) {
+			while(args.Length > 0) {
 				Console.WriteLine("------------------------------------------------------");
-				Console.WriteLine("{0}\n", args[i]);
+				Console.WriteLine("{0}\n" , args[i]);
 				i++;
 			}
 		}
