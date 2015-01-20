@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="ArgumentsHandler.cs" />
     <Compile Include="Database.cs" />
+    <Compile Include="DatabaseContainer.cs" />
     <Compile Include="DatabaseFactory.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="FileConverter.cs" />
