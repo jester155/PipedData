@@ -34,6 +34,13 @@ namespace Pipe {
 			return removedEntry;
 		}
 
+		public void OverwriteDataDile(string dataFile , string[] headers , List<List<string>> entries) {
+			using(var sw = new StreamWriter(dataFile)) {
+				sw.Write(headers.Aggregate(PipeFormat));
+				entries.ForEach(line => sw.Write(Environment.NewLine + line.Aggregate(PipeFormat)));
+			}
+		}
+
 		public string UpdateEntry(
 			string file , int lineIndex ,
 			int headerIndex , string newValue ,
@@ -41,13 +48,7 @@ namespace Pipe {
 			out List<List<string>> modifiedEntries) {
 
 			modifiedEntries = entries;
-			modifiedEntries[lineIndex - 1].Select(l => l).ToList()[headerIndex] = newValue;
-
-			using(var sw = new StreamWriter(file , false)) {
-				modifiedEntries.ForEach(line => {
-					sw.WriteLine(line.Aggregate(PipeFormat));
-				});
-			}
+			modifiedEntries[lineIndex][headerIndex] = newValue;
 
 			return "The entry has been modified!";
 		}

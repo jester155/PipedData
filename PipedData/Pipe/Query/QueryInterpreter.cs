@@ -73,7 +73,9 @@ namespace Pipe.Query {
 		}
 
 		private string UseDatabase() {
-			var newDataFile = this.Query.QueryParameters[0] + ".psv";
+			var newDataFile = this.Query.QueryParameters[0] 
+				newDataFile += newDataFile.Contains(".psv") ? string.Empty : ".psv";
+
 			if(DatabaseContainer.Databases.Any(d => d.DataFile != newDataFile)) {
 				var databaseFactory = new DatabaseFactory(newDataFile);
 				DatabaseContainer.Databases.Add(this.Database = databaseFactory.MakeDatabase());
@@ -87,13 +89,14 @@ namespace Pipe.Query {
 		private string PerformUpdate() {
 			var tempList = new List<List<string>>();
 
-
 			this.Query.UpdateParameters.ToList()
 				.ForEach(p => {
 					PipeEditor.UpdateEntry(
 					this.Database.DataFile , GetRow() , GetCol() , p ,
 					this.Database.Entries , out tempList);
 				});
+
+			this.PipeEditor.OverwriteDataDile(this.Database.DataFile , this.Database.Headers , tempList);
 
 			return "Updates were successful.";
 		}
