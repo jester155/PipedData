@@ -96,8 +96,6 @@ namespace Pipe.Query {
 					this.Database.Entries , out tempList);
 				});
 
-			this.PipeEditor.OverwriteDataDile(this.Database.DataFile , this.Database.Headers , tempList);
-
 			return "Updates were successful.";
 		}
 
