@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,16 +43,45 @@ namespace Pipe.Query {
 					message = PipeEditor.DeleteEntry(this.Database.DataFile , row + 1);
 					return true;
 				case QueryOptions.Use:
+					message = UseDatabase();
 					return true;
 				case QueryOptions.Set:
+					message = SetDatabaseDirectory();
 					return true;
 				case QueryOptions.Import:
+					message = ImportDatabase();
 					return true;
 				case QueryOptions.Invalid:
 				default:
 					message = "No action was performed.";
 					return false;
 			}
+		}
+
+		private string ImportDatabase() {
+			var datafile = Path.GetExtension(this.Query.QueryParameters[0]) == ".psv" ?
+				this.Query.QueryParameters[0] : this.Query.QueryParameters[0] +".psv";
+			var df = new DatabaseFactory(datafile);
+			DatabaseContainer.Databases.Add(df.MakeDatabase());
+
+			return string.Format("Importef databse {0} into memory" , datafile);
+		}
+
+		private string SetDatabaseDirectory() {
+			Directory.SetCurrentDirectory(this.Query.QueryParameters[0]);
+			return "The now using the datadirectory : " + this.Query.QueryParameters[0];
+		}
+
+		private string UseDatabase() {
+			var newDataFile = this.Query.QueryParameters[0] + ".psv";
+			if(DatabaseContainer.Databases.Any(d => d.DataFile != newDataFile)) {
+				var databaseFactory = new DatabaseFactory(newDataFile);
+				DatabaseContainer.Databases.Add(this.Database = databaseFactory.MakeDatabase());
+			}
+			else this.Database = DatabaseContainer.Databases[
+				DatabaseContainer.Databases.FindIndex(d => d.DataFile == newDataFile)];
+
+			return string.Format("Switched to database {0}" , this.Query.QueryParameters[0]);
 		}
 
 		private string PerformUpdate() {
