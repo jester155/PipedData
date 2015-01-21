@@ -43,7 +43,7 @@ namespace Pipe {
 			out List<List<string>> modifiedEntries) {
 
 			modifiedEntries = entries;
-<<<<<<< HEAD
+//<<<<<<< HEAD
 
 			for(int i = 0 ; i < pickedHeaders.Length ; i++) {
 				modifiedEntries[lineIndex][Array.IndexOf(headers , pickedHeaders[i])] = newValues[i];
@@ -55,9 +55,9 @@ namespace Pipe {
 					sw.Write(Environment.NewLine + line.Aggregate(PipeFormat).TrimEnd(new char[] { '\r' , '\n' }));
 				});
 			}
-=======
-			modifiedEntries[lineIndex][headerIndex] = newValue;
->>>>>>> origin/QueryHandler
+//=======
+//			modifiedEntries[lineIndex][headerIndex] = newValue;
+//>>>>>>> origin/QueryHandler
 
 			return "The entry has been modified!";
 		}
