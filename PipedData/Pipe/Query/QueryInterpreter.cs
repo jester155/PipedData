@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,10 +43,13 @@ namespace Pipe.Query {
 					message = PipeEditor.DeleteEntry(this.Database.DataFile , row + 1);
 					return true;
 				case QueryOptions.Use:
+					message = UseDatabase();
 					return true;
 				case QueryOptions.Set:
+					message = SetDatabaseDirectory();
 					return true;
 				case QueryOptions.Import:
+					message = ImportDatabase();
 					return true;
 				case QueryOptions.Invalid:
 				default:
@@ -54,16 +58,53 @@ namespace Pipe.Query {
 			}
 		}
 
+		private string ImportDatabase() {
+			var datafile = Path.GetExtension(this.Query.QueryParameters[0]) == ".psv" ?
+				this.Query.QueryParameters[0] : this.Query.QueryParameters[0] +".psv";
+			var df = new DatabaseFactory(datafile);
+			DatabaseContainer.Databases.Add(df.MakeDatabase());
+
+			return string.Format("Importef databse {0} into memory" , datafile);
+		}
+
+		private string SetDatabaseDirectory() {
+			Directory.SetCurrentDirectory(this.Query.QueryParameters[0]);
+			return "The now using the datadirectory : " + this.Query.QueryParameters[0];
+		}
+
+		private string UseDatabase() {
+			var newDataFile = this.Query.QueryParameters[0] 
+				newDataFile += newDataFile.Contains(".psv") ? string.Empty : ".psv";
+
+			if(DatabaseContainer.Databases.Any(d => d.DataFile != newDataFile)) {
+				var databaseFactory = new DatabaseFactory(newDataFile);
+				DatabaseContainer.Databases.Add(this.Database = databaseFactory.MakeDatabase());
+			}
+			else this.Database = DatabaseContainer.Databases[
+				DatabaseContainer.Databases.FindIndex(d => d.DataFile == newDataFile)];
+
+			return string.Format("Switched to database {0}" , this.Query.QueryParameters[0]);
+		}
+
 		private string PerformUpdate() {
 			var tempList = new List<List<string>>();
 			var row = new List<string>();
 			GetRow(out row);
 			var lineIndex = this.Database.Entries.IndexOf(row);
 
+<<<<<<< HEAD
 			var headers = FetchHeader().ToArray();
 			var newInput = this.Query.UpdateParameters;
 
 			this.PipeEditor.UpdateEntry(this.Database.DataFile , lineIndex , newInput , this.Database.Entries , headers , this.Database.Headers , out tempList);
+=======
+			this.Query.UpdateParameters.ToList()
+				.ForEach(p => {
+					PipeEditor.UpdateEntry(
+					this.Database.DataFile , GetRow() , GetCol() , p ,
+					this.Database.Entries , out tempList);
+				});
+>>>>>>> origin/QueryHandler
 
 			return "Updates were successful.";
 		}
