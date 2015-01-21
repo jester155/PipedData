@@ -1,6 +1,6 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -60,7 +60,7 @@ namespace Pipe.Query {
 
 		private string ImportDatabase() {
 			var datafile = Path.GetExtension(this.Query.QueryParameters[0]) == ".psv" ?
-				this.Query.QueryParameters[0] : this.Query.QueryParameters[0] +".psv";
+				this.Query.QueryParameters[0] : this.Query.QueryParameters[0] + ".psv";
 			var df = new DatabaseFactory(datafile);
 			DatabaseContainer.Databases.Add(df.MakeDatabase());
 
@@ -73,8 +73,8 @@ namespace Pipe.Query {
 		}
 
 		private string UseDatabase() {
-			var newDataFile = this.Query.QueryParameters[0] 
-				newDataFile += newDataFile.Contains(".psv") ? string.Empty : ".psv";
+			var newDataFile = this.Query.QueryParameters[0];
+			newDataFile += newDataFile.Contains(".psv") ? string.Empty : ".psv";
 
 			if(DatabaseContainer.Databases.Any(d => d.DataFile != newDataFile)) {
 				var databaseFactory = new DatabaseFactory(newDataFile);
@@ -92,19 +92,19 @@ namespace Pipe.Query {
 			GetRow(out row);
 			var lineIndex = this.Database.Entries.IndexOf(row);
 
-<<<<<<< HEAD
+			//<<<<<<< HEAD
 			var headers = FetchHeader().ToArray();
 			var newInput = this.Query.UpdateParameters;
 
 			this.PipeEditor.UpdateEntry(this.Database.DataFile , lineIndex , newInput , this.Database.Entries , headers , this.Database.Headers , out tempList);
-=======
-			this.Query.UpdateParameters.ToList()
-				.ForEach(p => {
-					PipeEditor.UpdateEntry(
-					this.Database.DataFile , GetRow() , GetCol() , p ,
-					this.Database.Entries , out tempList);
-				});
->>>>>>> origin/QueryHandler
+			//=======
+			//			this.Query.UpdateParameters.ToList()
+			//				.ForEach(p => {
+			//					PipeEditor.UpdateEntry(
+			//					this.Database.DataFile , GetRow() , GetCol() , p ,
+			//					this.Database.Entries , out tempList);
+			//				});
+			//>>>>>>> origin/QueryHandler
 
 			return "Updates were successful.";
 		}
