@@ -6,8 +6,8 @@ namespace Pipe {
 		static void Main(string[] args) {
 			string message = string.Empty;
 
-			var q = "select *";
-			//var q = "update first,last where id is 3 to alex,front";
+			//var q = "select *";
+			var q = "update first,last where id is 4 to alex,front";
 
 			var qf = new QueryFactory(q);
 			var df = new DatabaseFactory("Test.psv");

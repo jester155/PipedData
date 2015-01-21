@@ -38,7 +38,7 @@ namespace Pipe.Query {
 					message = PerformUpdate();
 					return true;
 				case QueryOptions.Delete:
-					var row = GetRow();
+					var row = GetRowToRemove();
 					message = PipeEditor.DeleteEntry(this.Database.DataFile , row + 1);
 					return true;
 				case QueryOptions.Use:
@@ -56,20 +56,21 @@ namespace Pipe.Query {
 
 		private string PerformUpdate() {
 			var tempList = new List<List<string>>();
+			var row = new List<string>();
+			GetRow(out row);
+			var lineIndex = this.Database.Entries.IndexOf(row);
 
+			var headers = FetchHeader().ToArray();
+			var newInput = this.Query.UpdateParameters;
 
-			this.Query.UpdateParameters.ToList()
-				.ForEach(p => {
-					PipeEditor.UpdateEntry(
-					this.Database.DataFile , GetRow() , GetCol() , p ,
-					this.Database.Entries , out tempList);
-				});
+			this.PipeEditor.UpdateEntry(this.Database.DataFile , lineIndex , newInput , this.Database.Entries , headers , this.Database.Headers , out tempList);
 
 			return "Updates were successful.";
 		}
 
-		private int GetRow() {
+		private int GetRowToRemove() {
 			var line = new List<string>();
+
 			switch(this.Query.Filter.FilterOption) {
 				case FileterOptions.Is:
 					line = FilterIs().Select(l => l).Single();
@@ -78,6 +79,25 @@ namespace Pipe.Query {
 					line = FilterPartof().Select(l => l).Single();
 					break;
 				case FileterOptions.None:
+					break;
+				default:
+					return -1;
+			}
+
+			return this.Database.Entries.IndexOf(line);
+		}
+
+		private int GetRow(out List<string> line) {
+			line = new List<string>();
+			switch(this.Query.Filter.FilterOption) {
+				case FileterOptions.Is:
+					line = FilterIs().Select(l => l).Single();
+					break;
+				case FileterOptions.PartOf:
+					line = FilterPartof().Select(l => l).Single();
+					break;
+				case FileterOptions.None:
+					break;
 				default:
 					return -1;
 			}
@@ -108,10 +128,13 @@ namespace Pipe.Query {
 				}
 			}
 
-			if(this.Query.QueryParameters.Length > 0 &&
+			if(this.Query.QueryOption != QueryOptions.Update) {
+				if(this.Query.QueryParameters.Length > 0 &&
 				this.Query.QueryParameters[0] != WILD_CARD) {
-				filtered = FilterColumns(filtered);
+					filtered = FilterColumns(filtered);
+				}
 			}
+
 
 			return filtered;
 		}

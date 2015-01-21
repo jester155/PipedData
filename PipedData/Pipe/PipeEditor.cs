@@ -36,16 +36,22 @@ namespace Pipe {
 
 		public string UpdateEntry(
 			string file , int lineIndex ,
-			int headerIndex , string newValue ,
+			string[] newValues ,
 			List<List<string>> entries ,
+			string[] pickedHeaders ,
+			string[] headers ,
 			out List<List<string>> modifiedEntries) {
 
 			modifiedEntries = entries;
-			modifiedEntries[lineIndex - 1].Select(l => l).ToList()[headerIndex] = newValue;
+
+			for(int i = 0 ; i < pickedHeaders.Length ; i++) {
+				modifiedEntries[lineIndex][Array.IndexOf(headers , pickedHeaders[i])] = newValues[i];
+			}
 
 			using(var sw = new StreamWriter(file , false)) {
+				sw.Write(headers.Aggregate(PipeFormat));
 				modifiedEntries.ForEach(line => {
-					sw.WriteLine(line.Aggregate(PipeFormat));
+					sw.Write(Environment.NewLine + line.Aggregate(PipeFormat).TrimEnd(new char[] { '\r' , '\n' }));
 				});
 			}
 
